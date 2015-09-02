@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+	<head lang="zh-CN">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>首页</title>
+		<link href="BASE_PATH/Public/utils/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="BASE_PATH/Public/css/Home/non-responsive.min.css" rel="stylesheet" type="text/css" />
+		<link href="BASE_PATH/Public/css/Home/index.css" rel="stylesheet" type="text/css" />
+		<!--[if lt IE 9]>
+		<script src="BASE_PATH/Public/js/html5shiv.min.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+			$baseUrl = 'BASE_PATH';
+		</script>
+	</head>
+
+	<body>
+		<!-- nav start -->
+		<include file="Layout/nav" />
+		<!-- nav end -->
+
+		<!-- left start -->
+		<div class="container left">
+			<include file="Layout/left" />
+		</div>
+		<!-- left end -->
+
+		<!-- right start -->
+		<div class="right">
+			<include file="Layout/right" />
+		</div>
+		<!-- right end -->
+
+		<!--template.js的模板-->
+		<script id="content_tpl" type="text/html">
+			<ul class="content_list">
+				{{each fileList as fL i}} {{if fL.type == 'folder'}}
+				<li class="content_item">
+					<div>
+						<img alt="文件夹" title="{{fL.fileName}}" src="BASE_PATH/Public/images/Home/floder.png" />
+						<a href="#">{{fL.fileName}}</a>
+						<input class="is_selected" type="hidden" value="0" />
+						<input name="type" type="hidden" value="{{fL.type}}" />
+						<input name="currentPath" type="hidden" value="{{fL.currentPath}}" />
+						 <span class="sp_btn"><a class="item_del" href="javascript:void(0)">删除&nbsp;</a><a class="item_rename" href="javascript:void(0)">重命名&nbsp;</a></span>
+					</div>
+				</li>
+				{{/if}} {{/each}} {{each fileList as fL i}} {{if fL.type == 'file'}}
+				<li class="content_item">
+					<div>
+						<img alt="文件" title="{{fL.fileName}}" src="BASE_PATH/Public/images/Home/file.png" />
+						<a href="#">{{fL.fileName}}</a>
+						<input class="is_selected" type="hidden" value="0" />
+						<input name="type" type="hidden" value="{{fL.type}}" />
+						<input name="currentPath" type="hidden" value="{{fL.currentPath}}" />
+						<span class="sp_btn"><a class="item_down" href="javascript:void(0)">下载&nbsp;</a><a class="item_del" href="javascript:void(0)">删除&nbsp;</a><a class="item_rename" href="javascript:void(0)">重命名&nbsp;</a></span>
+					</div>
+					<span class="file_type">{{fL.extensionName}}</span>
+				</li>
+				{{/if}} {{/each}}
+			</ul>
+		</script>
+
+		<script src="BASE_PATH/Public/js/jquery-1.11.1.min.js"></script>
+		<script src="BASE_PATH/Public/utils/bootstrap/js/bootstrap.min.js"></script>
+		<script src="BASE_PATH/Public/js/Home/template.js"></script>
+		<script src="BASE_PATH/Public/utils/layer/layer.js"></script>
+		<script src="BASE_PATH/Public/js/jsUrl.js"></script>
+		<script src="BASE_PATH/Public/js/Home/index.js"></script>
+		
+		<script type="text/javascript">
+			! function() {
+				//加载扩展模块
+				layer.config({
+					extend: 'BASE_PATH/Public/utils/layer/extend/layer.ext.js'
+				});
+				//上传
+				$('#uploadFile').on('click', function() {
+					$currentPath = $('#breadcrumb li:last-child').children('a').attr('data-path');
+					$currentPath = UrlEncode($currentPath);
+					layer.open({
+						type: 2,
+						title: ['上传文件', 'font-size:18px;'],
+						skin: 'layui-layer-rim', //加上边框
+						shift: 2,
+						area: ['700px', '400px'], //宽高
+						content: 'BASE_PATH/index.php?m=Home&c=Index&a=fileup&currentPath='+$currentPath,
+						end:function(index){
+							location.reload();	
+						}
+					});
+				});
+			}();
+		</script>
+	</body>
+
+</html>

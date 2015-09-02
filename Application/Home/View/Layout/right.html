@@ -1,0 +1,87 @@
+<div class="container">
+	<div class="right_top">
+		<ul>
+			<li>
+				<button id="uploadFile" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;上传文件</button>
+			</li>
+			<li>
+				<button id="mkDir" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;新建文件夹</button>
+			</li>
+		</ul>
+	</div>
+
+	<div class="right_menu">
+		<ol id="breadcrumb" class="breadcrumb pull-left">
+			<li><a class="breadcrumb_item" href="javascript:void(0)" data-root="root" data-path="{$rootPath}">我的文件</a></li>
+			<if condition="count($rsName) gt 0">
+				<foreach name="rsName" item="rN" key="k">
+					<li><a class="breadcrumb_item" href="javascript:void(0)" data-path="{$rsPath[$k]}">{$rN}</a></li>
+				</foreach>
+			</if>
+		</ol>
+		<ul class="pull-right right_menuinfo">
+			<if condition="count($rsName) gt 0">
+			<li><a id="return_pre" href="javascript:void(0)">返回上一级</a></li>
+			<else />
+			<li><a id="return_pre" href="javascript:void(0)">没有上一级</a></li>
+			</if>
+			<li id="fileCount">已全部加载，共{$fileList|count}个</li>
+		</ul>
+	</div>
+
+	<div class="panel panel-default right_function">
+		<div class="panel-body">
+			<div class="checkbox pull-left">
+				<label>
+					<input id="all_check" type="checkbox" />全选
+				</label>
+			</div>
+			<div class="pull-right right_function_btn">
+				<ul>
+					<li>
+						<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>&nbsp;下载</button>
+					</li>
+					<li>
+						<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;删除</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="right_content" id="right_content">
+		<ul class="content_list">
+			<foreach name="fileList" item="fL">
+				<if condition="$fL:type eq 'folder'">
+					<li class="content_item">
+						<div>
+							<img alt="文件夹" title="{$fL:fileName}" src="BASE_PATH/Public/images/Home/floder.png" />
+							<a href="#">{$fL:fileName}</a>
+							<input class="is_selected" type="hidden" value="0" />
+							<input name="type"  type="hidden" value="{$fL:type}" />
+						    <input name="currentPath" type="hidden" value="{$fL:currentPath}" />
+						    <span class="sp_btn"><a class="item_del" href="javascript:void(0)">删除&nbsp;</a><a class="item_rename" href="javascript:void(0)">重命名</a></span>
+						</div>
+					</li>
+				</if>
+			</foreach>
+
+			<foreach name="fileList" item="fL">
+				<if condition="$fL:type eq 'file'">
+					<li class="content_item">
+						<div>
+							<img alt="文件" title="{$fL:fileName}" src="BASE_PATH/Public/images/Home/file.png" />
+							<a href="#">{$fL:fileName}</a>
+							<input class="is_selected" type="hidden" value="0" />
+							<input name="type"  type="hidden" value="{$fL:type}" />
+						    <input name="currentPath" type="hidden" value="{$fL:currentPath}" />
+						     <span class="sp_btn"><a class="item_down" href="javascript:void(0)">下载&nbsp;</a><a class="item_del" href="javascript:void(0)">删除&nbsp;</a><a class="item_rename" href="javascript:void(0)">重命名&nbsp;</a></span>
+						</div>
+						<span class="file_type">{$fL:extensionName}</span>
+					</li>
+				</if>
+			</foreach>
+		</ul>
+	</div>
+
+</div>
